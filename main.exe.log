@@ -1,0 +1,118 @@
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: D:\МАКСим хижов\аркада\main.exe, файл: c:\codeblocks\codeblocks\mingw\include\txlib.h, строка: 13128, функция: HPEN__* {anonymous}::TX::txSetColor(COLORREF, double, HDC),
+
+Сообщение: Окно рисования не создано или не в порядке.
+Если вы указали параметр "dc", то он неверен.
+
+#1: TXLib [Ver: 00173a, Rev: 171, Date: 2022-07-23 02:08:28 +0400], Instance: 0x005042FC (32-bit), Flags: Cmdre0, Thread: 0x1EFC (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x0041C445 in D:\МАКСим хижов\аркада\main.exe: txSetColor() at c:/codeblocks/codeblocks/mingw/include/txlib.h (13128)
+
+# 1 0x0042B9E9 in D:\МАКСим хижов\аркада\main.exe: main() at D:/МАКСим хижов/аркада/main.cpp (7):
+
+      5: int main()
+      6: {
+=>    7:     txSetColor (TX_white );
+      8:     txSetFillColor (TX_white  );
+      9:     txCreateWindow (800, 600);
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in HPEN__* {anonymous}::TX::txSetColor(COLORREF, double, HDC) at c:\codeblocks\codeblocks\mingw\include\txlib.h (13128):
+
+  13126: HPEN txSetColor (COLORREF color, double thickness /*= 1*/, HDC dc /*= txDC()*/)
+  13127:     {
+=>13128: $1  if (_TX_DEFAULT_HDC_FAILED (dc)) return NULL;
+  13129: 
+  13130: $   HPEN pen = Win32::CreatePen ((color == TX_TRANSPARENT? PS_NULL : PS_SOLID), ROUND (thickness), color);
+
+# 1 in int main() at D:\МАКСим хижов\аркада\main.cpp (7):
+
+      5: int main()
+      6: {
+=>    7:     txSetColor (TX_white );
+      8:     txSetFillColor (TX_white  );
+      9:     txCreateWindow (800, 600);
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 171, Date: 2022-07-23 02:08:28 +0400]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	c:\codeblocks\codeblocks\mingw\include\txlib.h
+Compiled:	Mar  6 2023 18:28:43, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Mar 06 2023 18:28:55
+
+Run file:	D:\МАКСим хижов\аркада\main.exe
+Directory:	D:\МАКСим хижов\аркада
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: D:\МАКСим хижов\аркада\main.exe, файл: c:\codeblocks\codeblocks\mingw\include\txlib.h, строка: 13128, функция: HPEN__* {anonymous}::TX::txSetColor(COLORREF, double, HDC),
+
+Сообщение: Окно рисования не создано или не в порядке.
+Если вы указали параметр "dc", то он неверен.
+
+#1: TXLib [Ver: 00173a, Rev: 171, Date: 2022-07-23 02:08:28 +0400], Instance: 0x005042FC (32-bit), Flags: Cmdre0, Thread: 0xDC4 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x0041C445 in D:\МАКСим хижов\аркада\main.exe: txSetColor() at c:/codeblocks/codeblocks/mingw/include/txlib.h (13128)
+
+# 1 0x0042B9E9 in D:\МАКСим хижов\аркада\main.exe: main() at D:/МАКСим хижов/аркада/main.cpp (7):
+
+      5: int main()
+      6: {
+=>    7:     txSetColor (TX_white );
+      8:     txSetFillColor (TX_white  );
+      9:     txCreateWindow (800, 600);
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in HPEN__* {anonymous}::TX::txSetColor(COLORREF, double, HDC) at c:\codeblocks\codeblocks\mingw\include\txlib.h (13128):
+
+  13126: HPEN txSetColor (COLORREF color, double thickness /*= 1*/, HDC dc /*= txDC()*/)
+  13127:     {
+=>13128: $1  if (_TX_DEFAULT_HDC_FAILED (dc)) return NULL;
+  13129: 
+  13130: $   HPEN pen = Win32::CreatePen ((color == TX_TRANSPARENT? PS_NULL : PS_SOLID), ROUND (thickness), color);
+
+# 1 in int main() at D:\МАКСим хижов\аркада\main.cpp (7):
+
+      5: int main()
+      6: {
+=>    7:     txSetColor (TX_white );
+      8:     txSetFillColor (TX_white  );
+      9:     txCreateWindow (800, 600);
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 171, Date: 2022-07-23 02:08:28 +0400]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	c:\codeblocks\codeblocks\mingw\include\txlib.h
+Compiled:	Mar  6 2023 18:31:25, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Mar 06 2023 18:31:37
+
+Run file:	D:\МАКСим хижов\аркада\main.exe
+Directory:	D:\МАКСим хижов\аркада
+
+--------------------------------------------------

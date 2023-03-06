@@ -1,0 +1,40 @@
+
+#include "TXLib.h"
+
+int main()
+{
+txCreateWindow (800, 600);
+
+  HDC fon= txLoadImage("fon.bmp");
+  HDC dvarf= txLoadImage("dvarf_min.bmp");
+  int x_dvarf =400;
+    while(true)
+{
+
+   txBegin();
+
+   txClear ();
+
+    txBitBlt(txDC() ,0 ,0, 800,600, fon);
+    txBitBlt(txDC() , x_dvarf  ,300, 100,200,dvarf);
+
+
+    if(txGetAsyncKeyState ('D'))
+    {
+    x_dvarf += 10;
+    }
+
+
+   txEnd();
+   txSleep(20);
+
+
+}
+
+  txDeleteDC (fon);
+
+
+
+    txTextCursor (false);
+    return 0;
+}
