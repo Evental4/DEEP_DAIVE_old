@@ -7,8 +7,11 @@ txCreateWindow (800, 600);
 
   HDC fon= txLoadImage("fon.bmp");
   HDC dvarf= txLoadImage("dvarf_min.bmp");
+  HDC run= txLoadImage("run.bmp");
+HDC run= txLoadImage("run.bmp");
   int x_dvarf =400;
-    while(true)
+  int y_dvarf =300;
+    while(!txGetAsyncKeyState (VK_ESCAPE))
 {
 
    txBegin();
@@ -16,14 +19,26 @@ txCreateWindow (800, 600);
    txClear ();
 
     txBitBlt(txDC() ,0 ,0, 800,600, fon);
-    txBitBlt(txDC() , x_dvarf  ,300, 100,200,dvarf);
-
+    txTransparentBlt(txDC() , x_dvarf  ,y_dvarf, 100,200,dvarf, 0 ,0 , TX_white);
+    txTransparentBlt(txDC() , 0  ,300, 200,300,run, 0 ,0 , TX_white);
 
     if(txGetAsyncKeyState ('D'))
     {
     x_dvarf += 10;
     }
 
+    if(txGetAsyncKeyState ('A'))
+    {
+    x_dvarf -= 10;
+    }
+    if(txGetAsyncKeyState ('W'))
+    {
+    y_dvarf -= 10;
+    }
+    if(txGetAsyncKeyState ('S'))
+    {
+    y_dvarf += 10;
+    }
 
    txEnd();
    txSleep(20);
@@ -33,6 +48,7 @@ txCreateWindow (800, 600);
 
   txDeleteDC (fon);
 
+  txDeleteDC (dvarf );
 
 
     txTextCursor (false);
