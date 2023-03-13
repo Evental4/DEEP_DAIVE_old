@@ -5,32 +5,47 @@ int main()
 txCreateWindow (800, 600);
 
   HDC fon= txLoadImage("fon.bmp");
+
   HDC dvarf= txLoadImage("dvarf_min.bmp");
-  HDC dark_cnaite= txLoadImage("dark_cnaite.bmp");
-  HDC ran= txLoadImage("ckelet.bmp");
+  HDC dvarf_raite= txLoadImage("dvarf_min_raite.bmp");
+  HDC dvarf_1=dvarf ;
   int x_dvarf =400;
   int y_dvarf =300;
-  int x_dark_cnaite =200;
+int vx_ckelet =10;
+  HDC dark_cnaite= txLoadImage("dark_cnaite.bmp");
+    int x_dark_cnaite =200;
   int y_dark_cnaite =216;
+
+  HDC ckelet_raite= txLoadImage("ckelet_raite.bmp");
+  HDC ckelet_left= txLoadImage("ckelet_left.bmp");
+ HDC ckelet= ckelet_raite;
+  int x_ckelet=177 ;
+  int y_ckelet=176 ;
+  int vx_ckelet =10;
+  int w_ckelet  =193;
+  int h_ckelet  =220;
     while(!txGetAsyncKeyState (VK_ESCAPE))
 {
 
    txBegin();
 
    txClear ();
-
+ //рисование
     txBitBlt(txDC() ,0 ,0, 800,600, fon);
-    txTransparentBlt(txDC() , x_dvarf  ,y_dvarf, 100,200,dvarf, 0 ,0 , TX_white);
+    txTransparentBlt(txDC() , x_dvarf  ,y_dvarf, 100,200,dvarf_1, 0 ,0 , TX_white);
     txTransparentBlt(txDC() , x_dark_cnaite ,y_dark_cnaite, 200,216,dark_cnaite, 0 ,0 , TX_white);
-    txTransparentBlt(txDC() ,177,176, 177,176,ckelet, 0 ,0 , TX_white);
+    txTransparentBlt(txDC() , x_ckelet,y_ckelet,w_ckelet,h_ckelet ,ckelet, 0 ,0 , TX_white);
+//движение кл.
     if(txGetAsyncKeyState ('D'))
     {
     x_dvarf += 10;
+    dvarf_1= dvarf_raite;
     }
 
     if(txGetAsyncKeyState ('A'))
     {
     x_dvarf -= 10;
+    dvarf_1=dvarf;
     }
     if(txGetAsyncKeyState ('W'))
     {
@@ -40,6 +55,7 @@ txCreateWindow (800, 600);
     {
     y_dvarf += 10;
     }
+    //dark_cnaite передвижение
     if(txGetAsyncKeyState ('L'))
     {
     x_dark_cnaite += 10;
@@ -57,15 +73,21 @@ txCreateWindow (800, 600);
     {
     y_dark_cnaite += 10;
     }
+//вижение ии
+    x_ckelet=x_ckelet +vx_ckelet;
+   if (x_ckelet<0 || x_ckelet+w_ckelet>800)
+   vx_ckelet =-vx_ckelet;
+   if(vx_ckelet>0) ckelet=ckelet_raite;
+   else ckelet=ckelet_left;
    txEnd();
    txSleep(20);
 
 
 }
 
-  txDeleteDC (fon);
-    txDeleteDC (ckelet );
-  txDeleteDC (dvarf );
+    txDeleteDC (fon);
+    txDeleteDC (ckelet_left );
+    txDeleteDC (dvarf_1 );
     txDeleteDC (dark_cnaite);
 
     txTextCursor (false);

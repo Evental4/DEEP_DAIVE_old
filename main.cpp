@@ -4,70 +4,95 @@ int main()
 {
 txCreateWindow (800, 600);
 
-  HDC fon= txLoadImage("fon.bmp");
-  HDC dvarf= txLoadImage("dvarf_min.bmp");
-  HDC dark_cnaite= txLoadImage("dark_cnaite.bmp");
-  HDC ckelet= txLoadImage("ckelet.bmp");
-  int x_dvarf =400;
-  int y_dvarf =300;
-  int x_dark_cnaite =200;
-  int y_dark_cnaite =216;
+    HDC fon= txLoadImage("fon.bmp");
+
+    HDC dvarf= txLoadImage("dvarf_min.bmp");
+    HDC dvarf_raite= txLoadImage("dvarf_min_raite.bmp");
+    HDC dvarf_1=dvarf ;
+    int x_dvarf =400;
+    int y_dvarf =300;
+    int vx_dvarf =20;
+    HDC dark_cnaite= txLoadImage("dark_cnaite.bmp");
+    int x_dark_cnaite =200;
+    int y_dark_cnaite =216;
+
+    HDC ckelet_raite= txLoadImage("ckelet_raite.bmp");
+    HDC ckelet_left= txLoadImage("ckelet_left.bmp");
+    HDC ckelet= ckelet_raite;
+    int x_ckelet=177 ;
+    int y_ckelet=176 ;
+    int vx_ckelet =10;
+    int w_ckelet  =193;
+    int h_ckelet  =220;
+
+
     while(!txGetAsyncKeyState (VK_ESCAPE))
-{
+    {
 
-   txBegin();
+        txBegin();
 
-   txClear ();
+        txClear ();
+        //рисование
+        txBitBlt(txDC() ,0 ,0, 800,600, fon);
+        txTransparentBlt(txDC() , x_dvarf  ,y_dvarf, 100,200,dvarf_1, 0 ,0 , TX_white);
+        txTransparentBlt(txDC() , x_dark_cnaite ,y_dark_cnaite, 200,216,dark_cnaite, 0 ,0 , TX_white);
+        txTransparentBlt(txDC() , x_ckelet,y_ckelet,w_ckelet,h_ckelet ,ckelet, 0 ,0 , TX_white);
+        //движение кл.
+        if(txGetAsyncKeyState ('D'))
+        {
+            x_dvarf += vx_dvarf;
+            dvarf_1= dvarf_raite;
+        }
 
-    txBitBlt(txDC() ,0 ,0, 800,600, fon);
-    txTransparentBlt(txDC() , x_dvarf  ,y_dvarf, 100,200,dvarf, 0 ,0 , TX_white);
-    txTransparentBlt(txDC() , x_dark_cnaite ,y_dark_cnaite, 200,216,dark_cnaite, 0 ,0 , TX_white);
-    txTransparentBlt(txDC() ,177,176, 193,220,ckelet, 0 ,0 , TX_white);
-    if(txGetAsyncKeyState ('D'))
-    {
-    x_dvarf += 10;
-    }
+        if(txGetAsyncKeyState ('A'))
+        {
+            x_dvarf -= vx_dvarf;
+            dvarf_1=dvarf;
+        }
+        if(txGetAsyncKeyState ('W'))
+        {
+            y_dvarf -= 10;
+        }
+        if(txGetAsyncKeyState ('S'))
+        {
+            y_dvarf += 10;
+        }
+        //dark_cnaite передвижение
+        if(txGetAsyncKeyState ('L'))
+        {
+            x_dark_cnaite += 10;
+        }
 
-    if(txGetAsyncKeyState ('A'))
-    {
-    x_dvarf -= 10;
-    }
-    if(txGetAsyncKeyState ('W'))
-    {
-    y_dvarf -= 10;
-    }
-    if(txGetAsyncKeyState ('S'))
-    {
-    y_dvarf += 10;
-    }
-    if(txGetAsyncKeyState ('L'))
-    {
-    x_dark_cnaite += 10;
-    }
+        if(txGetAsyncKeyState ('J'))
+        {
+            x_dark_cnaite-= 10;
+        }
+        if(txGetAsyncKeyState ('I'))
+        {
+            y_dark_cnaite -= 10;
+        }
+        if(txGetAsyncKeyState ('K'))
+        {
+            y_dark_cnaite += 10;
+        }
+        //вижение ии
+        x_ckelet=x_ckelet +vx_ckelet;
+        if (x_ckelet<0 || x_ckelet+w_ckelet>800)
+            vx_ckelet =-vx_ckelet;
+        if(vx_ckelet>0) ckelet=ckelet_raite;
+        else ckelet=ckelet_left;
 
-    if(txGetAsyncKeyState ('J'))
-    {
-    x_dark_cnaite-= 10;
-    }
-    if(txGetAsyncKeyState ('I'))
-    {
-    y_dark_cnaite -= 10;
-    }
-    if(txGetAsyncKeyState ('K'))
-    {
-    y_dark_cnaite += 10;
-    }
-   txEnd();
-   txSleep(20);
+        txEnd();
+        txSleep(20);
 
 
-}
+    }
 
     txDeleteDC (fon);
-    txDeleteDC (ckelet );
-    txDeleteDC (dvarf );
+    txDeleteDC (ckelet_left );
+    txDeleteDC (dvarf_1 );
     txDeleteDC (dark_cnaite);
 
-    txTextCursor (false);
-    return 0;
+txTextCursor (false);
+return 0;
 }
