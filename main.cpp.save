@@ -26,8 +26,8 @@ txCreateWindow (800, 600);
     HDC ckelet_raite= txLoadImage("ckelet_raite.bmp");
     HDC ckelet_left= txLoadImage("ckelet_left.bmp");
     HDC ckelet= ckelet_raite;
-    int x_ckelet=177 ;
-    int y_ckelet=176 ;
+    int x_ckelet=10 ;
+    int y_ckelet=10 ;
     int vx_ckelet =5;
     int w_ckelet  =193;
     int h_ckelet  =220;
@@ -45,6 +45,7 @@ txCreateWindow (800, 600);
         txTransparentBlt(txDC() ,x_bob , y_bob, w_bob ,h_bob,bob, 0 ,0 , TX_white);
         txTransparentBlt(txDC() , x_ckelet,y_ckelet,w_ckelet,h_ckelet ,ckelet, 0 ,0 , TX_white);
         //движение кл.
+        //dvarf передв.
         if(txGetAsyncKeyState ('D'))
         {
             x_dvarf += vx_dvarf;
@@ -64,7 +65,7 @@ txCreateWindow (800, 600);
         {
             y_dvarf +=vx_dvarf;
         }
-        //dark_cnaite передвижение
+        //draf передвижение
         if(txGetAsyncKeyState ('L'))
         {
             x_bob += vx_bob;
@@ -78,13 +79,13 @@ txCreateWindow (800, 600);
         }
         if(txGetAsyncKeyState ('I'))
         {
-           y_bob-= 10;
+           y_bob-= vx_bob;
         }
         if(txGetAsyncKeyState ('K'))
         {
-            y_bob += 10;
+            y_bob += vx_bob;
         }
-        //вижение ии
+        //движение ии
         x_ckelet=x_ckelet +vx_ckelet;
         if (x_ckelet<0 || x_ckelet+w_ckelet>800)
             vx_ckelet =-vx_ckelet;
