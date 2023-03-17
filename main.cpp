@@ -11,17 +11,24 @@ txCreateWindow (800, 600);
     HDC dvarf_1=dvarf ;
     int x_dvarf =400;
     int y_dvarf =300;
-    int vx_dvarf =20;
-    HDC dark_cnaite= txLoadImage("dark_cnaite.bmp");
-    int x_dark_cnaite =200;
-    int y_dark_cnaite =216;
+    int vx_dvarf =10;
+    int w_dvarf  =100;
+    int h_dvarf  =200;
 
+    HDC bob_1= txLoadImage("draf_raite.bmp");
+    HDC bob_2= txLoadImage("draf_left.bmp");
+    HDC bob=bob_2;
+    int x_bob =200;
+    int y_bob =216;
+    int vx_bob =10;
+    int w_bob  =100;
+    int h_bob  =200;
     HDC ckelet_raite= txLoadImage("ckelet_raite.bmp");
     HDC ckelet_left= txLoadImage("ckelet_left.bmp");
     HDC ckelet= ckelet_raite;
     int x_ckelet=177 ;
     int y_ckelet=176 ;
-    int vx_ckelet =10;
+    int vx_ckelet =5;
     int w_ckelet  =193;
     int h_ckelet  =220;
 
@@ -34,8 +41,8 @@ txCreateWindow (800, 600);
         txClear ();
         //рисование
         txBitBlt(txDC() ,0 ,0, 800,600, fon);
-        txTransparentBlt(txDC() , x_dvarf  ,y_dvarf, 100,200,dvarf_1, 0 ,0 , TX_white);
-        txTransparentBlt(txDC() , x_dark_cnaite ,y_dark_cnaite, 200,216,dark_cnaite, 0 ,0 , TX_white);
+        txTransparentBlt(txDC() , x_dvarf  ,y_dvarf, w_dvarf,h_dvarf,dvarf_1, 0 ,0 , TX_white);
+        txTransparentBlt(txDC() ,x_bob , y_bob, w_bob ,h_bob,bob, 0 ,0 , TX_white);
         txTransparentBlt(txDC() , x_ckelet,y_ckelet,w_ckelet,h_ckelet ,ckelet, 0 ,0 , TX_white);
         //движение кл.
         if(txGetAsyncKeyState ('D'))
@@ -51,29 +58,31 @@ txCreateWindow (800, 600);
         }
         if(txGetAsyncKeyState ('W'))
         {
-            y_dvarf -= 10;
+            y_dvarf -= vx_dvarf;
         }
         if(txGetAsyncKeyState ('S'))
         {
-            y_dvarf += 10;
+            y_dvarf +=vx_dvarf;
         }
         //dark_cnaite передвижение
         if(txGetAsyncKeyState ('L'))
         {
-            x_dark_cnaite += 10;
+            x_bob += vx_bob;
+            bob=bob_1;
         }
 
         if(txGetAsyncKeyState ('J'))
         {
-            x_dark_cnaite-= 10;
+            x_bob-= vx_bob;
+            bob=bob_2;
         }
         if(txGetAsyncKeyState ('I'))
         {
-            y_dark_cnaite -= 10;
+           y_bob-= vx_bob;
         }
         if(txGetAsyncKeyState ('K'))
         {
-            y_dark_cnaite += 10;
+            y_bob += vx_bob;
         }
         //вижение ии
         x_ckelet=x_ckelet +vx_ckelet;
@@ -89,9 +98,11 @@ txCreateWindow (800, 600);
     }
 
     txDeleteDC (fon);
+    txDeleteDC (ckelet_raite );
     txDeleteDC (ckelet_left );
     txDeleteDC (dvarf_1 );
-    txDeleteDC (dark_cnaite);
+    txDeleteDC (bob_1);
+    txDeleteDC (bob_2);
 
 txTextCursor (false);
 return 0;
