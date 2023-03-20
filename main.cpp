@@ -1,36 +1,34 @@
 #include "TXLib.h"
 
+struct Per
+{
+ int x;
+ int y;
+ HDC image_left;
+ HDC image_raite;
+ HDC image;
+ int w;
+ int h;
+ int vx;
+ int vy;
+
+ void draw()
+ {
+ txTransparentBlt(txDC(), x ,y, w,h,image, 0 ,0 , TX_white);
+ }
+
+};
+
 int main()
 {
 txCreateWindow (800, 600);
 
     HDC fon= txLoadImage("fon.bmp");
 
-    HDC dvarf= txLoadImage("dvarf_min.bmp");
-    HDC dvarf_raite= txLoadImage("dvarf_min_raite.bmp");
-    HDC dvarf_1=dvarf ;
-    int x_dvarf =400;
-    int y_dvarf =300;
-    int vx_dvarf =10;
-    int w_dvarf  =100;
-    int h_dvarf  =200;
-
-    HDC bob_1= txLoadImage("draf_raite.bmp");
-    HDC bob_2= txLoadImage("draf_left.bmp");
-    HDC bob=bob_2;
-    int x_bob =200;
-    int y_bob =216;
-    int vx_bob =10;
-    int w_bob  =100;
-    int h_bob  =200;
-    HDC ckelet_raite= txLoadImage("ckelet_raite.bmp");
-    HDC ckelet_left= txLoadImage("ckelet_left.bmp");
-    HDC ckelet= ckelet_raite;
-    int x_ckelet=10 ;
-    int y_ckelet=10 ;
-    int vx_ckelet =5;
-    int w_ckelet  =193;
-    int h_ckelet  =220;
+    Per dvarf ={400,300,txLoadImage("dvarf_min.bmp"),txLoadImage("dvarf_min_raite.bmp"),dvarf.image_left,100,200,10,10};
+    Per bob ={200,216, txLoadImage("draf_left.bmp"),txLoadImage("draf_raite.bmp"),bob.image_left,100,200,10,10};
+    Per ckelet={10,10,txLoadImage("ckelet_left.bmp"),txLoadImage("ckelet_raite.bmp"),ckelet.image_raite,193,220,5,5 };
+    Per ckelet_1={15,420,txLoadImage("ckelet_left.bmp"),txLoadImage("ckelet_raite.bmp"),ckelet.image_raite,193,220,5,5 };
 
     while(!txGetAsyncKeyState (VK_ESCAPE))
     {
@@ -39,56 +37,57 @@ txCreateWindow (800, 600);
         txClear ();
         //рисование
         txBitBlt(txDC() ,0 ,0, 800,600, fon);
-        txTransparentBlt(txDC() , x_dvarf  ,y_dvarf, w_dvarf,h_dvarf,dvarf_1, 0 ,0 , TX_white);
-        txTransparentBlt(txDC() ,x_bob , y_bob, w_bob ,h_bob,bob, 0 ,0 , TX_white);
-        txTransparentBlt(txDC() , x_ckelet,y_ckelet,w_ckelet,h_ckelet ,ckelet, 0 ,0 , TX_white);
+        dvarf.draw();
+        bob.draw();
+        ckelet.draw();
+        ckelet_1.draw();
         //движение кл.
         //dvarf передв.
         if(txGetAsyncKeyState ('D'))
         {
-            x_dvarf += vx_dvarf;
-            dvarf_1= dvarf_raite;
+            dvarf.x += dvarf.vx;
+            dvarf.image= dvarf.image_raite ;
         }
 
         if(txGetAsyncKeyState ('A'))
         {
-            x_dvarf -= vx_dvarf;
-            dvarf_1=dvarf;
+            dvarf.x -= dvarf.vx;
+            dvarf.image=dvarf.image_left;
         }
         if(txGetAsyncKeyState ('W'))
         {
-            y_dvarf -= vx_dvarf;
+            dvarf.y -= dvarf.vy;
         }
         if(txGetAsyncKeyState ('S'))
         {
-            y_dvarf +=vx_dvarf;
+            dvarf.y +=dvarf.vy;
         }
         //draf передвижение
         if(txGetAsyncKeyState ('L'))
         {
-            x_bob += vx_bob;
-            bob=bob_1;
+            bob.x +=bob.vx;
+            bob.image=bob.image_raite ;
         }
 
         if(txGetAsyncKeyState ('J'))
         {
-            x_bob-= vx_bob;
-            bob=bob_2;
+            bob.x-= bob.vx;
+            bob.image=bob.image_left;
         }
         if(txGetAsyncKeyState ('I'))
         {
-           y_bob-= vx_bob;
+           bob.y-= bob.vy;
         }
         if(txGetAsyncKeyState ('K'))
         {
-            y_bob += vx_bob;
+            bob.y += bob.vy;
         }
         //движение ии
-        x_ckelet=x_ckelet +vx_ckelet;
-        if (x_ckelet<0 || x_ckelet+w_ckelet>800)
-            vx_ckelet =-vx_ckelet;
-        if(vx_ckelet>0) ckelet=ckelet_raite;
-        else ckelet=ckelet_left;
+        ckelet.x=ckelet.x +ckelet.vx;
+        if (ckelet.x<0 || ckelet.x+ckelet.w>800)
+            ckelet.vx =-ckelet.vx;
+        if(ckelet.vx>0) ckelet.image=ckelet.image_raite;
+        else ckelet.image=ckelet.image_left;
 
         txEnd();
         txSleep(20);
@@ -97,11 +96,10 @@ txCreateWindow (800, 600);
     }
 
     txDeleteDC (fon);
-    txDeleteDC (ckelet_raite );
-    txDeleteDC (ckelet_left );
-    txDeleteDC (dvarf_1 );
-    txDeleteDC (bob_1);
-    txDeleteDC (bob_2);
+    txDeleteDC (ckelet.image );
+    txDeleteDC (dvarf.image);
+    txDeleteDC (bob.image);
+
 
 txTextCursor (false);
 return 0;
