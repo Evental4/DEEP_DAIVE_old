@@ -26,9 +26,10 @@ txCreateWindow (800, 600);
     HDC fon= txLoadImage("fon.bmp");
 
     Per dvarf ={400,300,txLoadImage("dvarf_min.bmp"),txLoadImage("dvarf_min_raite.bmp"),dvarf.image_left,100,200,10,10};
-    Per bob ={200,216, txLoadImage("draf_left.bmp"),txLoadImage("draf_raite.bmp"),bob.image_left,100,200,10,10};
+    Per bob   ={200,216, txLoadImage("draf_left.bmp"),txLoadImage("draf_raite.bmp"),bob.image_left,100,200,10,10};
     Per ckelet={10,10,txLoadImage("ckelet_left.bmp"),txLoadImage("ckelet_raite.bmp"),ckelet.image_raite,193,220,5,5 };
-    Per ckelet_1={15,420,txLoadImage("ckelet_left.bmp"),txLoadImage("ckelet_raite.bmp"),ckelet.image_raite,193,220,5,5 };
+    Per gami  ={50,420,txLoadImage("gami_raite.bmp"),txLoadImage("gami_left.bmp"),gami.image_raite,150,75,10,10 };
+    Per doov  ={0,0,txLoadImage("2doov_left.bmp"),txLoadImage("2doov_raite.bmp"),doov.image_raite,150,300,10,10 };
 
     while(!txGetAsyncKeyState (VK_ESCAPE))
     {
@@ -40,7 +41,8 @@ txCreateWindow (800, 600);
         dvarf.draw();
         bob.draw();
         ckelet.draw();
-        ckelet_1.draw();
+        gami.draw();
+        doov.draw();
         //движение кл.
         //dvarf передв.
         if(txGetAsyncKeyState ('D'))
@@ -89,6 +91,13 @@ txCreateWindow (800, 600);
         if(ckelet.vx>0) ckelet.image=ckelet.image_raite;
         else ckelet.image=ckelet.image_left;
 
+         gami.x= gami.x + gami.vx;
+        if ( gami.x<0 ||  gami.x+ gami.w>800)
+            gami.vx =- gami.vx;
+        if( gami.vx>0)  gami.image= gami.image_raite;
+        else  gami.image= gami.image_left;
+
+
         txEnd();
         txSleep(20);
 
@@ -96,10 +105,11 @@ txCreateWindow (800, 600);
     }
 
     txDeleteDC (fon);
-    txDeleteDC (ckelet.image );
+    txDeleteDC (ckelet.image);
     txDeleteDC (dvarf.image);
     txDeleteDC (bob.image);
-
+    txDeleteDC (gami.image);
+    txDeleteDC (doov.image);
 
 txTextCursor (false);
 return 0;

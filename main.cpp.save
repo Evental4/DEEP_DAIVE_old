@@ -26,10 +26,11 @@ txCreateWindow (800, 600);
     HDC fon= txLoadImage("fon.bmp");
 
     Per dvarf ={400,300,txLoadImage("dvarf_min.bmp"),txLoadImage("dvarf_min_raite.bmp"),dvarf.image_left,100,200,10,10};
-    Per bob ={200,216, txLoadImage("draf_left.bmp"),txLoadImage("draf_raite.bmp"),bob.image_left,100,200,10,10};
-    Per ckelet={10,10,txLoadImage("ckelet_left.bmp"),txLoadImage("ckelet_raite.bmp"),ckelet,bob.image_raite,193,220,5,5 };
+    Per bob   ={200,216, txLoadImage("draf_left.bmp"),txLoadImage("draf_raite.bmp"),bob.image_left,100,200,10,10};
+    Per ckelet={10,10,txLoadImage("ckelet_left.bmp"),txLoadImage("ckelet_raite.bmp"),ckelet.image_raite,193,220,5,5 };
+    Per gami  ={50,420,txLoadImage("gami_raite.bmp"),txLoadImage("gami_left.bmp"),gami.image_raite,150,75,10,10 };
+    Per doov  ={0,0,txLoadImage("2doov_.bmp"),txLoadImage("2doov_raite.bmp"),doov.image_raite,150,75,10,10 };
     
-
     while(!txGetAsyncKeyState (VK_ESCAPE))
     {
 
@@ -39,7 +40,8 @@ txCreateWindow (800, 600);
         txBitBlt(txDC() ,0 ,0, 800,600, fon);
         dvarf.draw();
         bob.draw();
-        txTransparentBlt(txDC() , x_ckelet,y_ckelet,w_ckelet,h_ckelet ,ckelet, 0 ,0 , TX_white);
+        ckelet.draw();
+        gami.draw();
         //движение кл.
         //dvarf передв.
         if(txGetAsyncKeyState ('D'))
@@ -82,11 +84,18 @@ txCreateWindow (800, 600);
             bob.y += bob.vy;
         }
         //движение ии
-        x_ckelet=x_ckelet +vx_ckelet;
-        if (x_ckelet<0 || x_ckelet+w_ckelet>800)
-            vx_ckelet =-vx_ckelet;
-        if(vx_ckelet>0) ckelet=ckelet_raite;
-        else ckelet=ckelet_left;
+        ckelet.x=ckelet.x +ckelet.vx;
+        if (ckelet.x<0 || ckelet.x+ckelet.w>800)
+            ckelet.vx =-ckelet.vx;
+        if(ckelet.vx>0) ckelet.image=ckelet.image_raite;
+        else ckelet.image=ckelet.image_left;
+
+         gami.x= gami.x + gami.vx;
+        if ( gami.x<0 ||  gami.x+ gami.w>800)
+            gami.vx =- gami.vx;
+        if( gami.vx>0)  gami.image= gami.image_raite;
+        else  gami.image= gami.image_left;
+
 
         txEnd();
         txSleep(20);
@@ -95,11 +104,10 @@ txCreateWindow (800, 600);
     }
 
     txDeleteDC (fon);
-    txDeleteDC (ckelet_raite );
-    txDeleteDC (ckelet_left );
+    txDeleteDC (ckelet.image);
     txDeleteDC (dvarf.image);
     txDeleteDC (bob.image);
-
+    txDeleteDC (gami.image);
 
 txTextCursor (false);
 return 0;
