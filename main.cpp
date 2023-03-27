@@ -24,6 +24,7 @@ int main()
 txCreateWindow (800, 600);
 
     HDC fon= txLoadImage("fon.bmp");
+    HDC fon_1= txLoadImage("geme.bmp");
 
     Per dvarf ={400,300,txLoadImage("dvarf_min.bmp"),txLoadImage("dvarf_min_raite.bmp"),dvarf.image_left,100,200,10,10};
     Per bob   ={200,216, txLoadImage("draf_left.bmp"),txLoadImage("draf_raite.bmp"),bob.image_left,100,200,10,10};
@@ -31,9 +32,12 @@ txCreateWindow (800, 600);
     Per gami  ={50,420,txLoadImage("gami_raite.bmp"),txLoadImage("gami_left.bmp"),gami.image_raite,150,75,10,10 };
     Per doov  ={0,0,txLoadImage("2doov_left.bmp"),txLoadImage("2doov_raite.bmp"),doov.image_raite,150,300,10,10 };
 
+    char str[20];
+    int live =5;
+
     while(!txGetAsyncKeyState (VK_ESCAPE))
     {
-
+        txSetColor(TX_BLACK);
         txBegin();
         txClear ();
         //рисование
@@ -85,6 +89,7 @@ txCreateWindow (800, 600);
             bob.y += bob.vy;
         }
         //движение ии
+
         ckelet.x=ckelet.x +ckelet.vx;
         if (ckelet.x<0 || ckelet.x+ckelet.w>800)
             ckelet.vx =-ckelet.vx;
@@ -97,7 +102,34 @@ txCreateWindow (800, 600);
         if( gami.vx>0)  gami.image= gami.image_raite;
         else  gami.image= gami.image_left;
 
+        if(gami.x >bob.x)
+        {
+            gami.x =10;
+        }
 
+          if(  gami.x +  gami.w > bob.x &&  gami.x < bob.x + bob.w &&
+             gami.y +  gami.h > bob.y &&  gami.y < bob.y + 30)
+          {
+           live --;
+           gami.x=50;
+          }
+           sprintf(str, "жизнь  -%d", live) ;
+           txTextOut(650,10,str)  ;
+
+
+
+        // косание об.
+        if( dvarf.x + dvarf.w > bob.x && dvarf.x < bob.x + bob.w &&
+            dvarf.y + dvarf.h > bob.y && dvarf.y < bob.y + bob.h)
+        {
+        txTextOut(10,10,"касание");
+        }
+
+        if (live<0)
+        {
+        txBitBlt(txDC() ,0 ,0, 800,600, fon_1);
+        break;
+        }
         txEnd();
         txSleep(20);
 
