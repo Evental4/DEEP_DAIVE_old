@@ -19,6 +19,23 @@ struct Per
 
 };
 
+ struct Bool
+ {
+ int x;
+ int y;
+ int v;
+ bool visible;
+
+   void draw()
+   {
+        if (visible)
+       {
+        txSetColor(TX_white);
+        txSetFillColor(TX_white);
+        txCircle(x,y,5);
+        }
+   }
+  };
 int main()
 {
 txCreateWindow (800, 600);
@@ -32,8 +49,10 @@ txCreateWindow (800, 600);
     Per gami  ={50,420,txLoadImage("gami_raite.bmp"),txLoadImage("gami_left.bmp"),gami.image_raite,150,75,10,10 };
     Per doov  ={0,0,txLoadImage("2doov_left.bmp"),txLoadImage("2doov_raite.bmp"),doov.image_raite,150,300,10,10 };
 
+    Bool bul={bob.x+bob.w/2,bob.y,5,false};
+
     char str[20];
-    int live =5;
+    int live =10;
 
     while(!txGetAsyncKeyState (VK_ESCAPE))
     {
@@ -47,6 +66,7 @@ txCreateWindow (800, 600);
         ckelet.draw();
         gami.draw();
         doov.draw();
+        bul.draw();
         //движение кл.
         //dvarf передв.
         if(txGetAsyncKeyState ('D'))
@@ -88,6 +108,22 @@ txCreateWindow (800, 600);
         {
             bob.y += bob.vy;
         }
+        if(txGetAsyncKeyState (VK_SPACE))
+        {
+
+         bul.x=bob.x+bob.w/2,bob.y;
+         bul.y=bob.y ;
+          bul.visible= true;
+        }
+
+        if(bui.visible)
+        {
+         bul.y-=bul.v;
+        }
+        bul.x=bob.x+bob.w/2,bob.y
+        bul.y=bob.y
+        }
+
         //движение ии
 
         ckelet.x=ckelet.x +ckelet.vx;
@@ -96,28 +132,38 @@ txCreateWindow (800, 600);
         if(ckelet.vx>0) ckelet.image=ckelet.image_raite;
         else ckelet.image=ckelet.image_left;
 
-         gami.x= gami.x + gami.vx;
-        if ( gami.x<0 ||  gami.x+ gami.w>800)
-            gami.vx =- gami.vx;
-        if( gami.vx>0)  gami.image= gami.image_raite;
-        else  gami.image= gami.image_left;
 
-        if(gami.x >bob.x)
+        /*if(gami.x <bob.x && gami.y <bob.y )
         {
-        
+            gami.y +=1;
+            gami.x +=1;
         }
-        if (live=0)
+        if(gami.x >bob.x && gami.y <bob.y )
+        {
+            gami.y +=1;
+            gami.x -=1;
+        }
+        if(gami.x >bob.x && gami.y >bob.y )
+        {
+            gami.y -=1;
+            gami.x -=1;
+        }
+        if(gami.x <bob.x && gami.y >bob.y )
+        {
+            gami.y -=1;
+            gami.x +=1;
+        }
+        */
           if(  gami.x +  gami.w > bob.x &&  gami.x < bob.x + bob.w &&
              gami.y +  gami.h > bob.y &&  gami.y < bob.y + 30)
           {
            live --;
-           gami.x=50;
+           gami.y=50;
           }
            sprintf(str, "жизнь  -%d", live) ;
            txTextOut(650,10,str)  ;
-           
-           if (live<0)
-            txBitBlt(txDC() ,0 ,0, 800,600, fon_1);
+
+
 
         // косание об.
         if( dvarf.x + dvarf.w > bob.x && dvarf.x < bob.x + bob.w &&
@@ -126,8 +172,11 @@ txCreateWindow (800, 600);
         txTextOut(10,10,"касание");
         }
 
-
-
+        if (live<0)
+        {
+        txBitBlt(txDC() ,0 ,0, 800,600, fon_1);
+        break;
+        }
         txEnd();
         txSleep(20);
 

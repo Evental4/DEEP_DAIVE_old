@@ -11,14 +11,34 @@ struct Per
  int h;
  int vx;
  int vy;
+ bool visible;
+
 
  void draw()
  {
+   if(visible)
  txTransparentBlt(txDC(), x ,y, w,h,image, 0 ,0 , TX_white);
  }
 
 };
 
+ struct Bool
+ {
+ int x;
+ int y;
+ int v;
+ bool visible;
+
+   void draw()
+   {
+        if (visible)
+       {
+        txSetColor(TX_white);
+        txSetFillColor(TX_white);
+        txCircle(x,y,5);
+        }
+   }
+  };
 int main()
 {
 txCreateWindow (800, 600);
@@ -26,14 +46,16 @@ txCreateWindow (800, 600);
     HDC fon= txLoadImage("fon.bmp");
     HDC fon_1= txLoadImage("geme.bmp");
 
-    Per dvarf ={400,300,txLoadImage("dvarf_min.bmp"),txLoadImage("dvarf_min_raite.bmp"),dvarf.image_left,100,200,10,10};
-    Per bob   ={200,216, txLoadImage("draf_left.bmp"),txLoadImage("draf_raite.bmp"),bob.image_left,100,200,10,10};
-    Per ckelet={10,10,txLoadImage("ckelet_left.bmp"),txLoadImage("ckelet_raite.bmp"),ckelet.image_raite,193,220,5,5 };
-    Per gami  ={50,420,txLoadImage("gami_raite.bmp"),txLoadImage("gami_left.bmp"),gami.image_raite,150,75,10,10 };
-    Per doov  ={0,0,txLoadImage("2doov_left.bmp"),txLoadImage("2doov_raite.bmp"),doov.image_raite,150,300,10,10 };
+    Per dvarf ={400,300,txLoadImage("dvarf_min.bmp"),txLoadImage("dvarf_min_raite.bmp"),dvarf.image_left,100,200,10,10,true};
+    Per bob   ={200,216, txLoadImage("draf_left.bmp"),txLoadImage("draf_raite.bmp"),bob.image_left,100,200,10,10,true};
+    Per ckelet={10,10,txLoadImage("ckelet_left.bmp"),txLoadImage("ckelet_raite.bmp"),ckelet.image_raite,193,220,5,5,true };
+    Per gami  ={50,420,txLoadImage("gami_raite.bmp"),txLoadImage("gami_left.bmp"),gami.image_raite,150,75,10,10,true };
+    Per doov  ={0,0,txLoadImage("2doov_left.bmp"),txLoadImage("2doov_raite.bmp"),doov.image_raite,150,300,10,10,true };
+
+    Bool bul={bob.x+bob.w/2,bob.y,15,false};
 
     char str[20];
-    int live =5;
+    int live =10;
 
     while(!txGetAsyncKeyState (VK_ESCAPE))
     {
@@ -47,6 +69,7 @@ txCreateWindow (800, 600);
         ckelet.draw();
         gami.draw();
         doov.draw();
+        bul.draw();
         //движение кл.
         //dvarf передв.
         if(txGetAsyncKeyState ('D'))
@@ -88,6 +111,25 @@ txCreateWindow (800, 600);
         {
             bob.y += bob.vy;
         }
+        if(txGetAsyncKeyState (VK_SPACE))
+        {
+
+         bul.x=bob.x+bob.w/2,bob.y;
+         bul.y=bob.y ;
+          bul.visible= true;
+        }
+
+        if(bul.visible)
+        {
+         bul.y-=bul.v;
+        }
+
+        if( bul.x> gami.x && bul.x< gami.x+gami.w &&
+            bul.y> gami.y && bul.y< gami.y+gami.h   )
+         {
+           gami.visible= false;
+         }
+
         //движение ии
 
         ckelet.x=ckelet.x +ckelet.vx;
@@ -96,22 +138,33 @@ txCreateWindow (800, 600);
         if(ckelet.vx>0) ckelet.image=ckelet.image_raite;
         else ckelet.image=ckelet.image_left;
 
-         gami.x= gami.x + gami.vx;
-        if ( gami.x<0 ||  gami.x+ gami.w>800)
-            gami.vx =- gami.vx;
-        if( gami.vx>0)  gami.image= gami.image_raite;
-        else  gami.image= gami.image_left;
 
-        if(gami.x >bob.x)
+        if(gami.x <bob.x && gami.y <bob.y )
         {
-            gami.x =10;
+            gami.y +=1;
+            gami.x +=1;
+        }
+        if(gami.x >bob.x && gami.y <bob.y )
+        {
+            gami.y +=1;
+            gami.x -=1;
+        }
+        if(gami.x >bob.x && gami.y >bob.y )
+        {
+            gami.y -=1;
+            gami.x -=1;
+        }
+        if(gami.x <bob.x && gami.y >bob.y )
+        {
+            gami.y -=1;
+            gami.x +=1;
         }
 
           if(  gami.x +  gami.w > bob.x &&  gami.x < bob.x + bob.w &&
              gami.y +  gami.h > bob.y &&  gami.y < bob.y + 30)
           {
            live --;
-           gami.x=50;
+           gami.y=50;
           }
            sprintf(str, "жизнь  -%d", live) ;
            txTextOut(650,10,str)  ;
