@@ -90,10 +90,13 @@ int main()
 {
 txCreateWindow (800, 600);
 
-    HDC fon= txLoadImage("fon.bmp");
-    HDC fon_0= txLoadImage("fon_0.bmp");
-
-    Per dvarf ={400,300,txLoadImage("megig_dfar_left.bmp"),txLoadImage("megig_dfar_raite.bmp"),dvarf.image_left,100,200,10,10,true};
+    HDC fon;
+    HDC fon1 = txLoadImage("fon.bmp");
+    HDC fon_0 = txLoadImage("fon_0.bmp");
+    HDC fon_01 = txLoadImage("fon_01.bmp");
+    HDC dvarf_left = txLoadImage("megig_dfar_left.bmp");
+    HDC dvarf_raite = txLoadImage("megig_dfar_raite.bmp");
+    Per dvarf ={400,300,dvarf_left,dvarf_raite,dvarf.image_left,100,200,10,10,true};
     ziod kam  ={300,50,txLoadImage("doi.bmp"),100,75,true};
     ziod kam_1  ={500,200,txLoadImage("red_doi.bmp"),100,75,true};
     ziod kam_0  ={200,400,txLoadImage("doi_blie.bmp"),100,75,true};
@@ -106,8 +109,8 @@ txCreateWindow (800, 600);
     Button bth_exit={50,250,250,50,"¬ыход"};
 
     char str[20];
-    int live =10;
-
+    int point =0;
+    fon = fon1;
     string PAGE="Menu";
 
     while(true)
@@ -128,8 +131,8 @@ txCreateWindow (800, 600);
             bth_exit.draw();
             if(bth_exit.click())
             {
-             txDisableAutoPause ();
-             return  0;
+              break;
+             ;
             }
            }
            if (PAGE=="About")
@@ -140,6 +143,8 @@ txCreateWindow (800, 600);
 
            if (PAGE=="Game")
            {
+
+
             txSetColor(TX_BLACK);
             txClear ();
             //рисование
@@ -200,28 +205,72 @@ txCreateWindow (800, 600);
              }
             // косание об.
 
-           /* if(
-                txMouseButtons() == 1 &&
-                txMouseX() = kam.x && txMouseX() = kam.x + kam.w && txMouseY() = kam.y && txMouseY() = kam.y+kam.h )
+            if(
+                txMouseButtons() == 2 &&
+                txMouseX() > kam.x && txMouseX() < kam.x + kam.w && txMouseY() > kam.y && txMouseY() < kam.y+kam.h )
 
             {
-             kam.visible= false;
-            } */
+                kam.visible= false;
+                kam.x = random(10,700);
+                kam.y = random(10,500);
+                kam.visible= true;
+                point += 1;
+            }
+            if(
+                txMouseButtons() == 2 &&
+                txMouseX() > kam_1.x && txMouseX() < kam_1.x + kam_1.w && txMouseY() > kam_1.y && txMouseY() < kam_1.y+kam_1.h )
 
+            {
+             kam_1.visible= false;
+             kam_1.x = random(10,700);
+             kam_1.y = random(10,500);
+             kam_1.visible= true;
+                point += 5;
+            }
+            if(
+                txMouseButtons() == 2 &&
+                txMouseX() > kam_0.x && txMouseX() < kam_0.x + kam_0.w && txMouseY() > kam_0.y && txMouseY() < kam_0.y+kam_0.h )
+
+            {
+             kam_0.visible= false;
+             kam_0.x = random(10,700);
+             kam_0.y = random(10,500);
+             kam_0.visible= true;
+                point += 10;
+            }
+ // очки
+
+              sprintf (str ,"счет: %d",point);
+              txTextOut(650,10,str);
+              if (point>99)
+              {
+                dvarf.visible=false;
+                kam_0.visible=false;
+                kam_1.visible=false;
+                kam.visible= false;
+                fon=fon_01;
+                point=0;
+              }
 
              }
+
 
         txEnd();
         txSleep(20);
 
 
     }
+    txDeleteDC  (fon_01);
     txDeleteDC  (fon_0);
     txDeleteDC (fon);
-    txDeleteDC (dvarf.image);
+    txDeleteDC (fon1);
+    txDeleteDC (dvarf_left);
+    txDeleteDC (dvarf_raite);
     txDeleteDC  (kam.image);
     txDeleteDC  (kam_1.image);
     txDeleteDC  (kam_0.image);
+
 txTextCursor (false);
+txDisableAutoPause();
 return 0;
 }
