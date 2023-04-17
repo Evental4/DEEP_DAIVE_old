@@ -91,20 +91,19 @@ int main()
 txCreateWindow (800, 600);
 
     HDC fon= txLoadImage("fon.bmp");
-    HDC fon_1= txLoadImage("geme.bmp");
     HDC fon_0= txLoadImage("fon_0.bmp");
 
     Per dvarf ={400,300,txLoadImage("megig_dfar_left.bmp"),txLoadImage("megig_dfar_raite.bmp"),dvarf.image_left,100,200,10,10,true};
-    Per ckelet={10,10,txLoadImage("ckelet_left.bmp"),txLoadImage("ckelet_raite.bmp"),ckelet.image_raite,193,220,5,5,true };
-    Per gami  ={50,420,txLoadImage("gami_raite.bmp"),txLoadImage("gami_left.bmp"),gami.image_raite,150,75,10,10,true };
-    Per doov  ={0,0,txLoadImage("2doov_left.bmp"),txLoadImage("2doov_raite.bmp"),doov.image_raite,150,300,10,10,true };
     ziod kam  ={300,50,txLoadImage("doi.bmp"),100,75,true};
+    ziod kam_1  ={500,200,txLoadImage("red_doi.bmp"),100,75,true};
+    ziod kam_0  ={200,400,txLoadImage("doi_blie.bmp"),100,75,true};
+
 
     Bool bul={dvarf.x+dvarf.w/2,dvarf.y,15,false};
 
     Button bth_start={50,50,250,50,"Играть"};
     Button bth_About={50,150,250,50,"Об игре"};
-    Button bth_exit={50,200,250,50,"Выход"};
+    Button bth_exit={50,250,250,50,"Выход"};
 
     char str[20];
     int live =10;
@@ -147,12 +146,10 @@ txCreateWindow (800, 600);
             txBitBlt(txDC() ,0 ,0, 800,600, fon);
             dvarf.draw();
             kam.draw();
-            ckelet.draw();
-            gami.draw();
-            doov.draw();
             bul.draw();
+            kam_1.draw();
+            kam_0.draw();
             //движение кл.
-            //dvarf передв.
             if(txGetAsyncKeyState ('D'))
             {
                 dvarf.x += dvarf.vx;
@@ -178,7 +175,7 @@ txCreateWindow (800, 600);
 
              bul.x=dvarf.x+dvarf.w/2,dvarf.y;
              bul.y=dvarf.y ;
-              bul.visible= true;
+             bul.visible= true;
             }
             //пуля
             if(bul.visible)
@@ -186,94 +183,32 @@ txCreateWindow (800, 600);
              bul.y-=bul.v;
             }
 
-            if( bul.x> gami.x && bul.x< gami.x+gami.w &&
-                bul.y> gami.y && bul.y< gami.y+gami.h   )
+            if( bul.x> kam.x && bul.x< kam.x+kam.w &&
+                bul.y> kam.y && bul.y< kam.y+kam.h   )
              {
-               gami.visible= false;
+               kam.visible= false;
              }
-            if( bul.x> ckelet.x && bul.x< ckelet.x+ckelet.w &&
-                bul.y>ckelet.y && bul.y< ckelet.y+ckelet.h   )
+            if( bul.x> kam_1.x && bul.x< kam_1.x+kam_1.w &&
+                bul.y> kam_1.y && bul.y< kam_1.y+kam_1.h   )
              {
-               ckelet.visible= false;
+               kam_1.visible= false;
              }
-
-            //движение ии
-
-            if( ckelet.x <dvarf.x &&  ckelet.y <dvarf.y )
-            {
-                 ckelet.y +=1;
-                 ckelet.x +=1;
-            }
-            if( ckelet.x >dvarf.x &&  ckelet.y <dvarf.y )
-            {
-                 ckelet.y +=1;
-                 ckelet.x -=1;
-            }
-            if( ckelet.x >dvarf.x &&  ckelet.y >dvarf.y )
-            {
-                 ckelet.y -=1;
-                 ckelet.x -=1;
-            }
-            if( ckelet.x <dvarf.x &&  ckelet.y >dvarf.y )
-            {
-                ckelet.y -=1;
-                ckelet.x +=1;
-            }
-
-            if(gami.x <dvarf.x && gami.y <dvarf.y )
-            {
-                gami.y +=1;
-                gami.x +=1;
-            }
-            if(gami.x >dvarf.x && gami.y <dvarf.y )
-            {
-                gami.y +=1;
-                gami.x -=1;
-            }
-            if(gami.x >dvarf.x && gami.y >dvarf.y )
-            {
-                gami.y -=1;
-                gami.x -=1;
-            }
-            if(gami.x <dvarf.x && gami.y >dvarf.y )
-            {
-                gami.y -=1;
-                gami.x +=1;
-            }
-
-              if(  gami.x +  gami.w > dvarf.x &&  gami.x < dvarf.x +dvarf.w &&
-                 gami.y +  gami.h > dvarf.y &&  gami.y <dvarf.y + 30)
-              {
-               live --;
-               gami.y=50;
-              }
-               sprintf(str, "жизнь  -%d", live) ;
-               txTextOut(650,10,str)  ;
-
-              if(  ckelet.x +  ckelet.w > dvarf.x &&  ckelet.x < dvarf.x + dvarf.w &&
-                ckelet.y +  ckelet.h > dvarf.y &&  ckelet.y <dvarf.y + 30)
-              {
-               live --;
-               ckelet.y=400;
-               ckelet.x=400;
-              }
-               sprintf(str, "жизнь  -%d", live) ;
-               txTextOut(650,10,str)  ;
-
-
+             if( bul.x> kam_0.x && bul.x< kam_0.x+kam_0.w &&
+                bul.y> kam_0.y && bul.y< kam_0.y+kam_0.h   )
+             {
+               kam_0.visible= false;
+             }
             // косание об.
 
-            /*if( dvarf.x + dvarf.w > bob.x && dvarf.x < bob.x + bob.w &&
-                dvarf.y + dvarf.h > bob.y && dvarf.y < bob.y + bob.h)
+           /* if(
+                txMouseButtons() == 1 &&
+                txMouseX() = kam.x && txMouseX() = kam.x + kam.w && txMouseY() = kam.y && txMouseY() = kam.y+kam.h )
+
             {
-            txTextOut(10,10,"касание");
+             kam.visible= false;
             } */
 
-            if (live<0)
-            {
-            txBitBlt(txDC() ,0 ,0, 800,600, fon_1);
-            break;
-            }
+
              }
 
         txEnd();
@@ -282,14 +217,11 @@ txCreateWindow (800, 600);
 
     }
     txDeleteDC  (fon_0);
-    txDeleteDC (fon_1);
     txDeleteDC (fon);
-    txDeleteDC (ckelet.image);
     txDeleteDC (dvarf.image);
-    txDeleteDC (gami.image);
-    txDeleteDC (doov.image);
-     txDeleteDC  (kam.image);
-
+    txDeleteDC  (kam.image);
+    txDeleteDC  (kam_1.image);
+    txDeleteDC  (kam_0.image);
 txTextCursor (false);
 return 0;
 }
