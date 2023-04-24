@@ -62,6 +62,7 @@ int y;
    int w;
    int h;
    const char* text;
+   bool visible;
 
    void draw()
    {
@@ -91,6 +92,7 @@ int main()
 txCreateWindow (800, 600);
 
     HDC fon;
+    HDC fon_game_over= txLoadImage("geme.bmp");
     HDC fon1 = txLoadImage("fon.bmp");
     HDC fon_0 = txLoadImage("fon_0.bmp");
     HDC fon_01 = txLoadImage("fon_01.bmp");
@@ -107,9 +109,11 @@ txCreateWindow (800, 600);
     Button bth_start={50,50,250,50,"Играть"};
     Button bth_About={50,150,250,50,"Об игре"};
     Button bth_exit={50,250,250,50,"Выход"};
+    Button bth_renew={500,500,250,50,"Заново",false};
 
     char str[20];
     int point =0;
+    int t=300;
     fon = fon1;
     string PAGE="Menu";
 
@@ -149,6 +153,7 @@ txCreateWindow (800, 600);
             txClear ();
             //рисование
             txBitBlt(txDC() ,0 ,0, 800,600, fon);
+            if(bth_renew.visible)  bth_renew.draw();
             dvarf.draw();
             kam.draw();
             bul.draw();
@@ -250,8 +255,40 @@ txCreateWindow (800, 600);
                 kam.visible= false;
                 fon=fon_01;
                 point=0;
+                bth_renew.visible = true;
+                t=300;
               }
 
+              if (t<0)
+              {
+                dvarf.visible=false;
+                kam_0.visible=false;
+                kam_1.visible=false;
+                kam.visible= false;
+                fon=fon_game_over;
+                point=0;
+                bth_renew.visible = true;
+                t=0;
+              }
+
+                if (bth_renew.visible && bth_renew.click())
+                {
+                    dvarf.visible=true;
+                    kam_0.visible=true;
+                    kam_1.visible=true;
+                    kam.visible= true;
+                    fon=fon1;
+                    bth_renew.visible = false;
+                    t=300;
+                }
+
+                if(fon!=fon_01) t--;
+                txSetColor(TX_RED);
+                txSetFillColor(TX_WHITE);
+                txRectangle(600, 550, 750, 560);
+                txSetColor(TX_RED);
+                txSetFillColor(TX_RED);
+                txRectangle(600, 550, 600+t/2, 560);
              }
 
 
@@ -263,6 +300,7 @@ txCreateWindow (800, 600);
     txDeleteDC  (fon_01);
     txDeleteDC  (fon_0);
     txDeleteDC (fon);
+    txDeleteDC (fon_game_over);
     txDeleteDC (fon1);
     txDeleteDC (dvarf_left);
     txDeleteDC (dvarf_raite);
